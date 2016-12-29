@@ -1,12 +1,13 @@
 # photomosaic
 
-TODO: image search & selection interface
-TODO: image interpreter
-TODO: image color search
-TODO: image generator
+##TODO
+  * Image search & selection interface
+  * Image interpreter
+  * Image color search
+  * Image generator
 
-Dependencies:
+##Dependencies
 
-Test Dependencies:
-    pip install pytest
+##Test Dependencies
+  * pip install pytest
 
