@@ -13,5 +13,5 @@ The purpose of this application is to build [photomosaic](https://en.wikipedia.o
 ##Test Dependencies
   * pip install pytest
 
-  To run full test regression, execute ./test-all.sh
+  To run full test regression, execute ./test-all.sh or test-all.bat
 
