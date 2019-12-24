@@ -5,9 +5,16 @@ class ImageFileReader:
     def read(self, filename):
         file = open(filename, 'rb')
         parser = ImageFile.Parser()
-        while 1:
-            bytes_ = file.read(1024)
-            if not bytes_:
-                break
-            parser.feed(bytes_)
+        parser.feed(file.read())
         return parser.close().convert('RGB')
+
+class ImageMapper:
+    # map an image file to a nested list of pixels
+    def read_pixels(self, image):
+        pixels = []
+        for y in range(0, image.height):
+            row = []
+            for x in range(0, image.width):
+                row += [image.getpixel((x, y))]
+            pixels += [row]
+        return pixels
