@@ -1,2 +1,3 @@
-.cache/
-__pycache__/
+/.cache/
+/__pycache__/
+/test-data/test-out.jpg
