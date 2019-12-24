@@ -1,17 +1,11 @@
-# photomosaic
+# Photomosaic
 
-The purpose of this application is to build [photomosaic](https://en.wikipedia.org/wiki/Photographic_mosaic) images. The application will allow a user to search for choose an existing source image, then using Google Image keyword search, a mosaic will be generated.
+The purpose of this application is to build [photomosaic](https://en.wikipedia.org/wiki/Photographic_mosaic) images.
 
-##TODO
-  * Image search & selection interface
-  * Image interpreter
-  * Image color search
-  * Image generator
+## Dependencies
+Requires `Python 3` to be installed.
 
-##Dependencies
+## Test Suite
+Requires `make` to be installed for simplified suite execution.
 
-##Test Dependencies
-  * pip install pytest
-
-  To run full test regression, execute ./test-all.sh or test-all.bat
-
+`make` (or `make test`) will execute all tests from the pattern `_test.py`
