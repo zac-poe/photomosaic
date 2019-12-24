@@ -1,4 +1,6 @@
-from PIL import ImageFile
+from PIL import Image, ImageFile
+
+IMAGE_MODE = 'RGB'
 
 class ImageFileReader:
     # read a given image file to an Image object
@@ -6,7 +8,7 @@ class ImageFileReader:
         file = open(filename, 'rb')
         parser = ImageFile.Parser()
         parser.feed(file.read())
-        return parser.close().convert('RGB')
+        return parser.close().convert(IMAGE_MODE)
 
 class ImageMapper:
     # map an image file to a nested list of pixels
@@ -18,3 +20,8 @@ class ImageMapper:
                 row += [image.getpixel((x, y))]
             pixels += [row]
         return pixels
+
+class ImageFactory:
+    # creates a new image object for the given dimensions
+    def create(self, x, y):
+        return Image.new(IMAGE_MODE, (x, y))
