@@ -1,6 +1,6 @@
 from PIL import ImageFile
 
-class ImageParser:
+class ImageFileReader:
     # read a given image file to an Image object
     def read(self, filename):
         file = open(filename, 'rb')
