@@ -9,4 +9,4 @@ Requires `Python 3` and `make` to be installed.
     - [Pillow](https://python-pillow.org/) for image mainpulation
 
 ## Test Suite
-`make test` will execute all tests from the pattern `_test.py`
+`make test` will execute all tests from the `test/` directory

@@ -4,13 +4,13 @@ import collections
 testSubject = ImageMapper()
 
 def test_read_pixels():
-    result = testSubject.read_pixels('test-data/nature.jpg')
+    result = testSubject.read_pixels('test/data/nature.jpg')
     assert isinstance(result, collections.Sequence)  # image map
     assert isinstance(result[0], collections.Sequence)  # col map
     assert isinstance(result[0][0], collections.Sequence)  # pixel
 
 def test_write_pixels():
-    file = 'test-data/test-out.jpg'
+    file = 'test/data/out/image-mapper.jpg'
     colors = [(255,0,0),(0,255,0),(0,0,255)]
     colorsX = 30
     y = 100
@@ -27,7 +27,7 @@ def test_write_pixels():
     assert len(image[0]) == y  # height
 
 def test_write_pixels_uneven_descending():
-    file = 'test-data/test-out-failure-1.jpg'
+    file = 'test/data/out/image-mapper-failure-1.jpg'
     pixels = [
         [(0,0,0),(0,0,0),(0,0,0)],
         [(0,0,0),(0,0,0)],
@@ -40,7 +40,7 @@ def test_write_pixels_uneven_descending():
         pass
 
 def test_write_pixels_uneven_ascending():
-    file = 'test-data/test-out-failure-2.jpg'
+    file = 'test/data/out/image-mapper-failure-2.jpg'
     pixels = [
         [(0,0,0)],
         [(0,0,0),(0,0,0)],
@@ -53,7 +53,7 @@ def test_write_pixels_uneven_ascending():
         pass
 
 def test_write_pixels_bad_pixels_argument():
-    file = 'test-data/test-out-failure-3.jpg'
+    file = 'test/data/out/image-mapper-failure-3.jpg'
     try:
         testSubject.write_pixels("pixels", file)
         raise RuntimeError("expected ValueError")
@@ -61,7 +61,7 @@ def test_write_pixels_bad_pixels_argument():
         pass
 
 def test_write_pixels_non_nested_pixels():
-    file = 'test-data/test-out-failure-4.jpg'
+    file = 'test/data/out/image-mapper-failure-4.jpg'
     pixels = [(0,0,0),(0,0,0),(0,0,0)]
     try:
         testSubject.write_pixels(pixels, file)

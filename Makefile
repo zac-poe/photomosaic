@@ -9,7 +9,7 @@ test: test_dependencies
 			| sed -e '/^\s*#/d;/^\s*$$/d' \
 			| wc -l) lines of non-test code\033[0m"
 	@echo "Executing all tests:"
-	@py.test *_test.py
+	@py.test test/*.py
 
 test_dependencies:
 	@echo "May require administrative privileges"
