@@ -25,3 +25,29 @@ def test_write_pixels():
     image = testSubject.read_pixels(file)
     assert len(image) == y  # height
     assert len(image[0]) == len(colors) * colorsX  # width
+
+def test_write_pixels_uneven_descending():
+    file = 'test-data/test-out-failure-1.jpg'
+    pixels = [
+        [(0,0,0),(0,0,0),(0,0,0)],
+        [(0,0,0),(0,0,0)],
+        [(0,0,0)]
+    ]
+    try:
+        testSubject.write_pixels(pixels, file)
+        raise RuntimeError("expected ValueError")
+    except ValueError:
+        pass
+
+def test_write_pixels_uneven_ascending():
+    file = 'test-data/test-out-failure-2.jpg'
+    pixels = [
+        [(0,0,0)],
+        [(0,0,0),(0,0,0)],
+        [(0,0,0),(0,0,0),(0,0,0)]
+    ]
+    try:
+        testSubject.write_pixels(pixels, file)
+        raise RuntimeError("expected ValueError")
+    except ValueError:
+        pass

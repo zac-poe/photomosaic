@@ -30,6 +30,8 @@ class ImageMapper:
 
         for y in range(0, maxY):
             for x in range(0, maxX):
+                if maxX != len(pixels[y]):
+                    raise ValueError("Uneven pixels list provided")
                 image.putpixel((x, y), pixels[y][x])
 
         image.save(filename)
