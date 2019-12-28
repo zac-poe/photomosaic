@@ -9,18 +9,19 @@ def test_read_pixels():
     assert isinstance(result[0], collections.Sequence)  # row map
     assert isinstance(result[0][0], collections.Sequence)  # pixel
 
-def test_read_pixels():
+def test_write_pixels():
     file = 'test-data/test-out.jpg'
-    testSubject.write_pixels([
-            [(255,255,255),(255,0,0),(0,255,0),(0,0,255),(0,0,0)],
-            [(255,255,255),(255,0,0),(0,255,0),(0,0,255),(0,0,0)],
-            [(255,255,255),(255,0,0),(0,255,0),(0,0,255),(0,0,0)],
-            [(255,255,255),(255,0,0),(0,255,0),(0,0,255),(0,0,0)],
-            [(255,255,255),(255,0,0),(0,255,0),(0,0,255),(0,0,0)],
-            [(255,255,255),(255,0,0),(0,255,0),(0,0,255),(0,0,0)],
-            [(255,255,255),(255,0,0),(0,255,0),(0,0,255),(0,0,0)],
-            [(255,255,255),(255,0,0),(0,255,0),(0,0,255),(0,0,0)]
-        ], file)
+    colors = [(255,0,0),(0,255,0),(0,0,255)]
+    colorsX = 30
+    y = 100
+    pixels = []
+    for i in range(0, y):
+        row = []
+        for c in colors:
+            for j in range(0, colorsX):
+                row.append(c)
+        pixels += [row]
+    testSubject.write_pixels(pixels, file)
     image = testSubject.read_pixels(file)
-    assert len(image) == 8  # height
-    assert len(image[0]) == 5  # width
+    assert len(image) == y  # height
+    assert len(image[0]) == len(colors) * colorsX  # width

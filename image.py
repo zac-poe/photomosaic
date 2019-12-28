@@ -4,7 +4,7 @@ IMAGE_MODE = 'RGB'
 
 ## Supports mapping and unmapping between a file and basic data structures
 class ImageMapper:
-    # map an image file to a nested list of pixels
+    # map an image file to a nested list of pixel tuples
     def read_pixels(self, filename):
         pixels = []
 
@@ -22,15 +22,14 @@ class ImageMapper:
             pixels += [row]
         return pixels
 
-    # write a nested list of pixels to image file
+    # write a nested list of pixel tuples to image file
     def write_pixels(self, pixels, filename):
-        y = len(pixels)
-        x = len(pixels[0])
-        image = Image.new(IMAGE_MODE, (x, y))
+        maxY = len(pixels)
+        maxX = len(pixels[0])
+        image = Image.new(IMAGE_MODE, (maxX, maxY))
 
-        for y in range(0, y):
-            for x in range(0, x):
-                image.putpixel((x, y),
-                    pixels[y][x])
+        for y in range(0, maxY):
+            for x in range(0, maxX):
+                image.putpixel((x, y), pixels[y][x])
 
         image.save(filename)
