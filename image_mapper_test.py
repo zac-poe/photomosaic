@@ -51,3 +51,20 @@ def test_write_pixels_uneven_ascending():
         raise RuntimeError("expected ValueError")
     except ValueError:
         pass
+
+def test_write_pixels_bad_pixels_argument():
+    file = 'test-data/test-out-failure-3.jpg'
+    try:
+        testSubject.write_pixels("pixels", file)
+        raise RuntimeError("expected ValueError")
+    except ValueError:
+        pass
+
+def test_write_pixels_non_nested_pixels():
+    file = 'test-data/test-out-failure-4.jpg'
+    pixels = [(0,0,0),(0,0,0),(0,0,0)]
+    try:
+        testSubject.write_pixels(pixels, file)
+        raise RuntimeError("expected ValueError")
+    except ValueError:
+        pass

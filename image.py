@@ -24,6 +24,9 @@ class ImageMapper:
 
     # write a nested list of pixel tuples to image file
     def write_pixels(self, pixels, filename):
+        if not isinstance(pixels, list) or not isinstance(pixels[0], list):
+            raise ValueError("Provided pixels must be a nested list")
+
         maxX = len(pixels)
         maxY = len(pixels[0])
         image = Image.new(IMAGE_MODE, (maxX, maxY))
