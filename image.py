@@ -15,23 +15,23 @@ class ImageMapper:
             return parser.close().convert(IMAGE_MODE)
 
         image = read_file(filename)
-        for y in range(0, image.height):
-            row = []
-            for x in range(0, image.width):
-                row += [image.getpixel((x, y))]
-            pixels += [row]
+        for x in range(0, image.width):
+            column = []
+            for y in range(0, image.height):
+                column += [image.getpixel((x, y))]
+            pixels += [column]
         return pixels
 
     # write a nested list of pixel tuples to image file
     def write_pixels(self, pixels, filename):
-        maxY = len(pixels)
-        maxX = len(pixels[0])
+        maxX = len(pixels)
+        maxY = len(pixels[0])
         image = Image.new(IMAGE_MODE, (maxX, maxY))
 
-        for y in range(0, maxY):
-            for x in range(0, maxX):
-                if maxX != len(pixels[y]):
+        for x in range(0, maxX):
+            for y in range(0, maxY):
+                if maxY != len(pixels[x]):
                     raise ValueError("Uneven pixels list provided")
-                image.putpixel((x, y), pixels[y][x])
+                image.putpixel((x, y), pixels[x][y])
 
         image.save(filename)

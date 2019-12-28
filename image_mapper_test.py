@@ -6,7 +6,7 @@ testSubject = ImageMapper()
 def test_read_pixels():
     result = testSubject.read_pixels('test-data/nature.jpg')
     assert isinstance(result, collections.Sequence)  # image map
-    assert isinstance(result[0], collections.Sequence)  # row map
+    assert isinstance(result[0], collections.Sequence)  # col map
     assert isinstance(result[0][0], collections.Sequence)  # pixel
 
 def test_write_pixels():
@@ -15,16 +15,16 @@ def test_write_pixels():
     colorsX = 30
     y = 100
     pixels = []
-    for i in range(0, y):
-        row = []
-        for c in colors:
-            for j in range(0, colorsX):
-                row.append(c)
-        pixels += [row]
+    for c in colors:
+        for i in range(0, colorsX):
+            col = []
+            for j in range(0, y):
+                col.append(c)
+            pixels += [col]
     testSubject.write_pixels(pixels, file)
     image = testSubject.read_pixels(file)
-    assert len(image) == y  # height
-    assert len(image[0]) == len(colors) * colorsX  # width
+    assert len(image) == len(colors) * colorsX  # width
+    assert len(image[0]) == y  # height
 
 def test_write_pixels_uneven_descending():
     file = 'test-data/test-out-failure-1.jpg'
