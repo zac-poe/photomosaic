@@ -1,31 +1,32 @@
 from PIL import Image, ImageFile
 import collections
 
-#
-# docs: https://pillow.readthedocs.io/en/stable/reference/index.html
-#
-
 IMAGE_MODE = 'RGB'
 
 ## Supports mapping and unmapping between a file and basic data structures
 class ImageMapper:
-    # map an image file to a nested list of pixel tuples
-    def read_pixels(self, filename):
+    # map an image file to an Image object
+    def read_file(self, filename):
+        file = open(filename, 'rb')
+        parser = ImageFile.Parser()
+        parser.feed(file.read())
+        return parser.close().convert(IMAGE_MODE)
+
+    # map an Image object to a nested list of pixel tuples
+    def read_image(self, image):
+        if not isinstance(image, Image.Image):
+            raise ValueError("image must be instance of Image object")
         pixels = []
-
-        def read_file(filename):
-            file = open(filename, 'rb')
-            parser = ImageFile.Parser()
-            parser.feed(file.read())
-            return parser.close().convert(IMAGE_MODE)
-
-        image = read_file(filename)
         for x in range(0, image.width):
             column = []
             for y in range(0, image.height):
                 column += [image.getpixel((x, y))]
             pixels += [column]
         return pixels
+
+    # shorthand to map an image file to a nested list of pixel tuples
+    def read_pixels(self, filename):
+        return self.read_image(self.read_file(filename))
 
     # write a nested list of pixel tuples to image file
     def write_pixels(self, pixels, filename):

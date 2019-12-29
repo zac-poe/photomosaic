@@ -14,3 +14,4 @@ generate_mosaic() {
 cd "$(dirname "$0")/.."
 
 generate_mosaic 'none' 'test/data/out/mosaic_no_image.jpeg'
+generate_mosaic 'self' 'test/data/out/mosaic_reflective_image.jpeg'

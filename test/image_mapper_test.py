@@ -1,10 +1,21 @@
 from image import ImageMapper
+from PIL import Image
 import collections
 
 testSubject = ImageMapper()
 
+def test_read_file():
+    result = testSubject.read_file('test/data/nature.jpg')
+    assert isinstance(result, Image.Image)
+
 def test_read_pixels():
     result = testSubject.read_pixels('test/data/nature.jpg')
+    assert isinstance(result, collections.Sequence)  # image map
+    assert isinstance(result[0], collections.Sequence)  # col map
+    assert isinstance(result[0][0], collections.Sequence)  # pixel
+
+def test_read_image_equates_to_read_pixels():
+    result = testSubject.read_image(testSubject.read_file('test/data/nature.jpg'))
     assert isinstance(result, collections.Sequence)  # image map
     assert isinstance(result[0], collections.Sequence)  # col map
     assert isinstance(result[0][0], collections.Sequence)  # pixel
