@@ -11,7 +11,7 @@ Requires `Python 3` and `make` to be installed.
 The `photomosaic.py` script is the application entry point.
 
 Provide the source image and output file to generate a photomosaic:  
-`./photomosaic.py -i test/data/christmas.jpeg -o test/data/out/mosaic.jpeg'`
+`./photomosaic.py -i test/data/christmas.jpeg -o test/data/out/mosaic.jpeg`
 
 `./photomosaic.py -h`: outputs help text for full application argument details
 
@@ -20,7 +20,7 @@ The samples below can be generated with `make sample` and will use the following
 ![source image](readme/source.jpg)
 
 ### Non-image Mosaic
-The `none` image search option will use a direct color value for each tile in the mosaic. The resulting mosaic will resemble a blur effect of the source image.  
+The `none` image search (`-s`) option will use a direct color value for each tile in the mosaic. The resulting mosaic will resemble a blur effect of the source image.  
 ![non-image mosaic](readme/mosaic_no_image.jpg)
 
 ## Test Suite
