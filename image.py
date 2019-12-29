@@ -1,6 +1,10 @@
 from PIL import Image, ImageFile
 import collections
 
+#
+# docs: https://pillow.readthedocs.io/en/stable/reference/index.html
+#
+
 IMAGE_MODE = 'RGB'
 
 ## Supports mapping and unmapping between a file and basic data structures
