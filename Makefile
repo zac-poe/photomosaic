@@ -3,11 +3,17 @@ dependencies:
 	python3 -m pip install Pillow
 
 test: test_dependencies
+	@code_line_filter='/^\s*#/d;/^\s*$$/d'
 	@echo "\033[0;32mProject contains $$(\
-		find . -name '*.py' -a -not -name '*_test.py' \
+		find . -maxdepth 1 -name '*.py' \
 			| xargs cat \
-			| sed -e '/^\s*#/d;/^\s*$$/d' \
-			| wc -l) lines of non-test code\033[0m"
+			| sed -e "$$code_line_filter" \
+			| wc -l) lines of non-test/non-build code"
+	@echo "    and $$(\
+		find . -name '*.py' -or -name '*.sh' -or -name Makefile \
+			| xargs cat \
+			| sed -e "$$code_line_filter" \
+			| wc -l) total lines of code\033[0m"
 	@echo "Executing all tests:"
 	@py.test test/*.py
 
