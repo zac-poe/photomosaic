@@ -1,21 +1,23 @@
 from PIL import Image, ImageFile
 import collections
 
-IMAGE_MODE = 'RGB'
-
 ## Supports mapping and unmapping between a file and basic data structures
 class ImageMapper:
+    IMAGE_MODE = 'RGB'
+    COMPOSITE_MODE = 'RGBA'
+
     # map an image file to an Image object
     def read_file(self, filename):
         file = open(filename, 'rb')
         parser = ImageFile.Parser()
         parser.feed(file.read())
-        return parser.close().convert(IMAGE_MODE)
+        return parser.close().convert(ImageMapper.IMAGE_MODE)
 
     # map an Image object to a nested list of pixel tuples
     def read_image(self, image):
         if not isinstance(image, Image.Image):
             raise ValueError("image must be instance of Image object")
+        image = image.convert(ImageMapper.IMAGE_MODE)
         pixels = []
         for x in range(0, image.width):
             column = []
@@ -35,7 +37,7 @@ class ImageMapper:
 
         maxX = len(pixels)
         maxY = len(pixels[0])
-        image = Image.new(IMAGE_MODE, (maxX, maxY))
+        image = Image.new(ImageMapper.IMAGE_MODE, (maxX, maxY))
 
         for x in range(0, maxX):
             for y in range(0, maxY):

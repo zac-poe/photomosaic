@@ -19,6 +19,10 @@ Provide the source image and output file to generate a photomosaic:
 The samples below can be generated with `make sample` and will use the following source image:  
 ![source image](readme/source.jpg)
 
+### Self Reflective Mosaic
+The `self` image search (`-s`) option will reuse the original input image, with appropriately adjusted color values for each tile in the mosaic.  
+![non-image mosaic](readme/mosaic_reflective_image.jpg)
+
 ### Non-image Mosaic
 The `none` image search (`-s`) option will use a direct color value for each tile in the mosaic. The resulting mosaic will resemble a blur effect of the source image.  
 ![non-image mosaic](readme/mosaic_no_image.jpg)
