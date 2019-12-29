@@ -6,7 +6,7 @@ The purpose of this application is to build [photomosaic](https://en.wikipedia.o
 Requires `Python 3` and `make` to be installed.
 
 `make` will install local application dependencies:  
-    - [Pillow](https://python-pillow.org/) for image mainpulation
+  * [Pillow](https://python-pillow.org/) for image mainpulation
 
 ## Usage
 
