@@ -11,6 +11,10 @@ test: test_dependencies
 	@echo "Executing all tests:"
 	@py.test test/*.py
 
-test_dependencies:
+test_dependencies: dependencies
 	@echo "May require administrative privileges"
 	python3 -m pip install pytest
+
+sample: dependencies
+	@echo "Generating sample photomosaics..."
+	@test/photomosaic_test.sh

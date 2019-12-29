@@ -2,6 +2,8 @@ import collections
 
 ## creates image search instances
 class ImageSearchFactory:
+    SEARCH_NONE = 'none'
+
     @classmethod
     def construct(cls, type, xy):
         if not isinstance(type, str):
@@ -10,7 +12,7 @@ class ImageSearchFactory:
             or not isinstance(xy[0], int) or xy[0] < 0 \
             or not isinstance(xy[1], int) or xy[1] < 0:
             raise ValueError("Providex xy must be sequence of two positive numbers")
-        if type.lower() == 'none':
+        if type.lower() == ImageSearchFactory.SEARCH_NONE:
             return ImageSearchFactory.DummySearch(xy)
         else:
             raise ValueError("Type {0} is not supported".format(type))
