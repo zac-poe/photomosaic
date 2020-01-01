@@ -47,6 +47,17 @@ class ImageMapper:
 
         image.save(filename)
 
+    # applies a color mask of the given pixel to the given image
+    def colorize_image(self, image, pixel):
+        base_image = image.copy().convert(ImageMapper.COMPOSITE_MODE)
+        color_image = base_image.copy()
+
+        for x in range(0, color_image.width):
+            for y in range(0, color_image.height):
+                color_image.putpixel((x, y), pixel)
+
+        return Image.blend(base_image, color_image, .75)
+
 ## Supports analysis of nested pixel lists
 class PixelAnalyzer:
     # produces average color from pixel map

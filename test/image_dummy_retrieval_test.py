@@ -1,11 +1,11 @@
-from image_search import ImageSearchFactory
+from image_library import ImageRetrievalFactory
 
-def test_search():
+def test_get_pixel():
     xy = (2, 2)
-    testSubject = ImageSearchFactory.DummySearch(xy)
+    testSubject = ImageRetrievalFactory.DummyRetrieval(xy)
 
     pixel = (10, 20, 30)
-    result = testSubject.search(pixel)
+    result = testSubject.get(pixel)
 
     assert len(result) == xy[0]
     for x in range(0, len(result)):

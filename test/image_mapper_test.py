@@ -79,3 +79,13 @@ def test_write_pixels_non_nested_pixels():
         raise RuntimeError("expected ValueError")
     except ValueError:
         pass
+
+def test_colorize_image_modifies_pixels():
+    image = testSubject.read_file('test/data/nature.jpg')
+    pixel = (55, 100, 220)
+    orig00 = image.getpixel((0,0))
+    updatedImage = testSubject.colorize_image(image, pixel)
+    updated00 = updatedImage.getpixel((0,0))
+    assert isinstance(updatedImage, Image.Image)
+    assert orig00 != updated00  # ensure changed
+    assert pixel != updated00  # ensure not 100% masked

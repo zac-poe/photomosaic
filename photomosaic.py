@@ -3,7 +3,7 @@
 import argparse
 from image import ImageMapper, PixelAnalyzer
 from mosaic import Mosaic
-from image_search import ImageSearchFactory
+from image_library import ImageRetrievalFactory
 
 # application option arguments
 arg_parser = argparse.ArgumentParser(description='Generates photomosaic images.')
@@ -13,12 +13,13 @@ arg_parser.add_argument('-i',
     required=True,
     help='Source input image')
 arg_parser.add_argument('-s',
-    dest='search_type',
+    dest='source_type',
     type=str,
-    default=ImageSearchFactory.SEARCH_NONE,
-    choices=[ImageSearchFactory.SEARCH_REFLECTIVE,
-        ImageSearchFactory.SEARCH_NONE],
-    help='Mosaic tile search type (default: %(default)s)')
+    default=ImageRetrievalFactory.SEARCH_REFLECTIVE,
+    choices=[ ImageRetrievalFactory.SEARCH_LIBRARY,
+        ImageRetrievalFactory.SEARCH_REFLECTIVE,
+        ImageRetrievalFactory.SEARCH_NONE ],
+    help='Mosaic tile source (default: %(default)s)')
 arg_parser.add_argument('-t',
     dest='thumb_size',
     type=int,
@@ -46,7 +47,7 @@ dimensions = (args.x or args.thumb_size,
 image_mapper = ImageMapper()
 mosaic_builder = Mosaic()
 pixel_analyzer = PixelAnalyzer()
-image_searcher = ImageSearchFactory.construct(args.search_type,
+image_retriever = ImageRetrievalFactory.construct(args.source_type,
     dimensions,
     args.input_file)
 
@@ -57,7 +58,7 @@ mosaic = mosaic_builder.tile(image_mapper.read_pixels(args.input_file),
 print("Generating photomosaic...")
 for i in range(0, len(mosaic)):
     for j in range(0, len(mosaic[i])):
-        mosaic[i][j] = image_searcher.search(pixel_analyzer.average(mosaic[i][j]))
+        mosaic[i][j] = image_retriever.get(pixel_analyzer.average(mosaic[i][j]))
 
 image_mapper.write_pixels(mosaic_builder.untile(mosaic),
     args.output_file)
