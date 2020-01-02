@@ -85,6 +85,8 @@ class PixelAnalyzer:
 
 ## Interprets and constructs pixel objects
 class PixelFactory:
+    MAX_PIXEL_DISTANCE = 450
+
     @classmethod
     def parse(cls, pixel):
         if isinstance(pixel, collections.Sequence):
