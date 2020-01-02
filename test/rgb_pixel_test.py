@@ -49,3 +49,9 @@ def test_distance_between_same_pixels_is_0():
     pixel = PixelFactory.RgbPixel((255, 0, 0))
 
     assert 0 == pixel.distance(pixel)
+
+def test_max_distance_between_pixels_is_valid():
+    pixel = PixelFactory.RgbPixel((255,255,255))
+
+    assert PixelFactory.MAX_PIXEL_DISTANCE > \
+        pixel.distance(PixelFactory.RgbPixel((0,0,0)))
