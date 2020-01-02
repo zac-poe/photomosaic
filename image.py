@@ -1,5 +1,6 @@
 from PIL import Image, ImageFile
 import collections
+import math
 
 ## Supports mapping and unmapping between a file and basic data structures
 class ImageMapper:
@@ -58,6 +59,7 @@ class ImageMapper:
 
         return Image.blend(base_image, color_image, .75)
 
+
 ## Supports analysis of nested pixel lists
 class PixelAnalyzer:
     # produces average color from pixel map
@@ -75,10 +77,11 @@ class PixelAnalyzer:
                     continue
                 if maxY != len(pixels[x]):
                     raise ValueError("Uneven pixels list provided")
-                pixel.combine(PixelFactory.parse(pixels[x][y]))
+                pixel.combine_with(PixelFactory.parse(pixels[x][y]))
         pixel.divide(maxX * maxY)
 
         return pixel.to_tuple()
+
 
 ## Interprets and constructs pixel objects
 class PixelFactory:
@@ -98,7 +101,7 @@ class PixelFactory:
             self.green = tuple[1]
             self.blue = tuple[2]
 
-        def combine(self, pixel):
+        def combine_with(self, pixel):
             self.red += pixel.red
             self.green += pixel.green
             self.blue += pixel.blue
@@ -111,6 +114,15 @@ class PixelFactory:
             self.red = average(self.red, quantity)
             self.green = average(self.green, quantity)
             self.blue = average(self.blue, quantity)
+
+        def distance(self, pixel):
+            def square(n):
+                return math.pow(n, 2)
+
+            # returns 3d coordinate difference between pixels
+            return math.sqrt(square(self.red - pixel.red)
+                + square(self.green - pixel.green)
+                + square(self.blue - pixel.blue))
 
         def to_tuple(self):
             return (self.red, self.green, self.blue)
