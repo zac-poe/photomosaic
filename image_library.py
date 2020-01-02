@@ -55,19 +55,27 @@ class ImageRetrievalFactory:
     ## uses a local library to retrieve and mask results
     class LibraryRetrieval:
         def __init__(self, xy):
-            self.x = xy[0]
-            self.y = xy[1]
+            self.image_mapper = ImageMapper()
+            self.xy = xy
 
         def load_library(self, library):
             if not isinstance(library, ImageLibrary):
                 raise ValueError("library must be an ImageLibrary")
             self.image_library = library
+            self.image_library.init()
 
         def get(self, pixel):
             if self.image_library == None:
                 raise ValueError("no image library has been loaded")
-            result = []
-            return result
+
+            # retrieve image
+            file = self.image_library.next(pixel)
+            image = self.image_mapper.read_file(file).resize(self.xy)
+
+            # mask to specific color tone
+            image = self.image_mapper.colorize_image(image, pixel)
+
+            return self.image_mapper.read_image(image)
 
 
 ## provides behavior for interactions with local image file library
@@ -104,6 +112,9 @@ class ImageLibrary:
             self.library_files[color] = [0, images]
 
     def next(self, pixel):
+        if not hasattr(self, 'library_files'):
+            raise self.ImageLibraryError("This object has not been initialized")
+
         color = self.color_mapper.name(pixel)
 
         color_list = self.library_files[color]

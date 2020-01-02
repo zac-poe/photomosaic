@@ -4,9 +4,9 @@ import shutil
 from image import ImageMapper
 
 test_library = 'test_image_library'
-test_subject = ImageLibrary(test_library)
 
 def test_init_fails_with_no_library():
+    test_subject = ImageLibrary(test_library)
     remove_library()
     try:
         test_subject.init()
@@ -15,6 +15,7 @@ def test_init_fails_with_no_library():
         pass
 
 def test_init_fails_with_empty_library():
+    test_subject = ImageLibrary(test_library)
     create_library()
     try:
         test_subject.init()
@@ -24,6 +25,7 @@ def test_init_fails_with_empty_library():
     remove_library()
 
 def test_init_fails_with_empty_subfolders():
+    test_subject = ImageLibrary(test_library)
     create_library()
     create_library_dirs()
     try:
@@ -34,6 +36,7 @@ def test_init_fails_with_empty_subfolders():
     remove_library()
 
 def test_init_loads_file_list():
+    test_subject = ImageLibrary(test_library)
     create_library()
     create_library_dirs()
     create_library_images()
@@ -46,6 +49,7 @@ def test_init_loads_file_list():
     remove_library()
 
 def test_next_retrieves_image():
+    test_subject = ImageLibrary(test_library)
     create_library()
     create_library_dirs()
     create_library_images()
@@ -58,6 +62,7 @@ def test_next_retrieves_image():
     remove_library()
 
 def test_next_is_cyclic():
+    test_subject = ImageLibrary(test_library)
     create_library()
     create_library_dirs()
     create_library_images()
@@ -66,6 +71,20 @@ def test_next_is_cyclic():
     for i in range(0, len(test_subject.library_files['red'][1]) + 1):
         file = test_subject.next((0, 0, 0))
         assert not file is None
+
+    remove_library()
+
+def test_next_fails_if_not_initialized():
+    test_subject = ImageLibrary(test_library)
+    create_library()
+    create_library_dirs()
+    create_library_images()
+
+    try:
+        test_subject.next((0, 0, 0))
+        raise RuntimeError("expected ImageLibraryError")
+    except ImageLibrary.ImageLibraryError:
+        pass
 
     remove_library()
 
