@@ -3,7 +3,7 @@
 import argparse
 from image import ImageMapper, PixelAnalyzer
 from mosaic import Mosaic
-from image_library import ImageRetrievalFactory
+from image_library import ImageRetrievalFactory, ImageLibrary
 
 # application option arguments
 arg_parser = argparse.ArgumentParser(description='Generates photomosaic images.')
@@ -15,10 +15,10 @@ arg_parser.add_argument('-i',
 arg_parser.add_argument('-s',
     dest='source_type',
     type=str,
-    default=ImageRetrievalFactory.SEARCH_REFLECTIVE,
-    choices=[ ImageRetrievalFactory.SEARCH_LIBRARY,
-        ImageRetrievalFactory.SEARCH_REFLECTIVE,
-        ImageRetrievalFactory.SEARCH_NONE ],
+    default=ImageRetrievalFactory.RETRIEVE_REFLECTIVE,
+    choices=[ ImageRetrievalFactory.RETRIEVE_LIBRARY,
+        ImageRetrievalFactory.RETRIEVE_REFLECTIVE,
+        ImageRetrievalFactory.RETRIEVE_NONE ],
     help='Mosaic tile source (default: %(default)s)')
 arg_parser.add_argument('-t',
     dest='thumb_size',
@@ -50,10 +50,15 @@ pixel_analyzer = PixelAnalyzer()
 image_retriever = ImageRetrievalFactory.construct(args.source_type,
     dimensions,
     args.input_file)
+image_library = ImageLibrary()
 
 print("Parsing source image...")
 mosaic = mosaic_builder.tile(image_mapper.read_pixels(args.input_file),
     dimensions)
+
+if args.source_type == ImageRetrievalFactory.RETRIEVE_LIBRARY:
+    print("Loading image library...")
+    image_retriever.load_library(image_library)
 
 print("Generating photomosaic...")
 for i in range(0, len(mosaic)):

@@ -15,3 +15,6 @@ cd "$(dirname "$0")/.."
 
 generate_mosaic 'self' 'test/data/out/mosaic_reflective_image.jpeg'
 generate_mosaic 'none' 'test/data/out/mosaic_no_image.jpeg'
+if [[ -d 'image_library' ]]; then
+    generate_mosaic 'library' 'test/data/out/mosaic_library_image.jpeg'
+fi

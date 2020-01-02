@@ -5,9 +5,9 @@ import os
 
 ## creates image search instances
 class ImageRetrievalFactory:
-    SEARCH_LIBRARY = 'library'
-    SEARCH_REFLECTIVE = 'self'
-    SEARCH_NONE = 'none'
+    RETRIEVE_LIBRARY = 'library'
+    RETRIEVE_REFLECTIVE = 'self'
+    RETRIEVE_NONE = 'none'
 
     @classmethod
     def construct(cls, type, xy, original):
@@ -17,11 +17,11 @@ class ImageRetrievalFactory:
             or not isinstance(xy[0], int) or xy[0] < 0 \
             or not isinstance(xy[1], int) or xy[1] < 0:
             raise ValueError("Providex xy must be sequence of two positive numbers")
-        if type.lower() == ImageRetrievalFactory.SEARCH_NONE:
+        if type.lower() == ImageRetrievalFactory.RETRIEVE_NONE:
             return ImageRetrievalFactory.DummyRetrieval(xy)
-        if type.lower() == ImageRetrievalFactory.SEARCH_REFLECTIVE:
+        if type.lower() == ImageRetrievalFactory.RETRIEVE_REFLECTIVE:
             return ImageRetrievalFactory.ReflectiveRetrieval(xy, original)
-        if type.lower() == ImageRetrievalFactory.SEARCH_LIBRARY:
+        if type.lower() == ImageRetrievalFactory.RETRIEVE_LIBRARY:
             return ImageRetrievalFactory.LibraryRetrieval(xy)
         else:
             raise ValueError("Type {0} is not supported".format(type))
@@ -65,7 +65,7 @@ class ImageRetrievalFactory:
             self.image_library.init()
 
         def get(self, pixel):
-            if self.image_library == None:
+            if not hasattr(self, 'image_library'):
                 raise ValueError("no image library has been loaded")
 
             # retrieve image

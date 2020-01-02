@@ -30,3 +30,13 @@ def test_get_pixel():
 
     assert isinstance(result, list)
     assert isinstance(result[0], list)
+
+def test_get_fails_when_library_has_not_been_loaded():
+    xy = (2, 2)
+    test_subject = ImageRetrievalFactory.LibraryRetrieval(xy)
+
+    try:
+        test_subject.get((10, 20, 30))
+        raise RuntimeError("expected ValueError")
+    except ValueError:
+        pass
