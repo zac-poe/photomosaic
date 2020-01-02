@@ -1,6 +1,7 @@
 import collections
 from image import ImageMapper, PixelFactory
 from PIL import Image
+import os
 
 ## creates image search instances
 class ImageRetrievalFactory:
@@ -56,13 +57,46 @@ class ImageRetrievalFactory:
         def __init__(self, xy):
             self.x = xy[0]
             self.y = xy[1]
+            self.image_library = ImageLibrary()
 
         def get(self, pixel):
             result = []
             return result
 
 
+## provides behavior for interactions with local image file library
 class ImageLibrary:
+    LIBRARY_NAME = 'image_library'
+
+    def __init__(self, library_name=LIBRARY_NAME):
+        self.library_path = os.path.dirname(os.path.realpath(__file__)) \
+            + '/' + library_name
+
+    def validate(self):
+        warning_msg = "Has this library been initialized with build_library.py?"
+        try:
+            library_dirs = os.listdir(self.library_path)
+        except FileNotFoundError:
+            raise self.ImageLibraryError("No image library found at {0}. {1}"
+                .format(self.library_path, warning_msg))
+        for color in self.ColorMapper.COLOR_SPECTRUM:
+            if not color in library_dirs:
+                raise self.ImageLibraryError(
+                    "Local image library is missing color {0}. {1}"
+                    .format(color, warning_msg))
+            if not len(os.listdir(self.library_path + '/' + color)) > 0:
+                raise self.ImageLibraryError(
+                    "Local image library has no images under folder {0}. {1}"
+                    .format(color, warning_msg))
+
+    ## for reporting out library state issues
+    class ImageLibraryError(Exception):
+        def __init__(self, message):
+            self.message = message
+
+        def __str__(self):
+            return repr(self.message)
+
     ## maps from pixels to library colors
     class ColorMapper:
         COLOR_SPECTRUM = {
