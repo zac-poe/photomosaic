@@ -1,4 +1,4 @@
-from image_library import ImageLibrary
+from image_library import ImageRetrievalFactory, ImageLibrary
 import os
 import shutil
 from image import ImageMapper
@@ -6,39 +6,66 @@ from image import ImageMapper
 test_library = 'test_image_library'
 test_subject = ImageLibrary(test_library)
 
-def test_validate_fails_with_no_library():
+def test_init_fails_with_no_library():
     remove_library()
     try:
-        test_subject.validate()
+        test_subject.init()
         raise RuntimeError("expected ImageLibraryError")
     except ImageLibrary.ImageLibraryError:
         pass
 
-def test_validate_fails_with_empty_library():
+def test_init_fails_with_empty_library():
     create_library()
     try:
-        test_subject.validate()
+        test_subject.init()
         raise RuntimeError("expected ImageLibraryError")
     except ImageLibrary.ImageLibraryError:
         pass
     remove_library()
 
-def test_validate_fails_with_empty_subfolders():
+def test_init_fails_with_empty_subfolders():
     create_library()
     create_library_dirs()
     try:
-        test_subject.validate()
+        test_subject.init()
         raise RuntimeError("expected ImageLibraryError")
     except ImageLibrary.ImageLibraryError:
         pass
     remove_library()
 
-def test_validate_success():
+def test_init_loads_file_list():
     create_library()
     create_library_dirs()
     create_library_images()
 
-    test_subject.validate()
+    test_subject.init()
+
+    assert isinstance(test_subject.library_files, dict)
+    assert len(test_subject.library_files) == len(ImageLibrary.ColorMapper.COLOR_SPECTRUM)
+
+    remove_library()
+
+def test_next_retrieves_image():
+    create_library()
+    create_library_dirs()
+    create_library_images()
+    test_subject.init()
+
+    file = test_subject.next((255, 0, 0))
+
+    assert os.path.isfile(file)
+
+    remove_library()
+
+def test_next_is_cyclic():
+    create_library()
+    create_library_dirs()
+    create_library_images()
+    test_subject.init()
+
+    for i in range(0, len(test_subject.library_files['red'][1]) + 1):
+        file = test_subject.next((0, 0, 0))
+        assert not file is None
 
     remove_library()
 

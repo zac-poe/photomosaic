@@ -57,9 +57,15 @@ class ImageRetrievalFactory:
         def __init__(self, xy):
             self.x = xy[0]
             self.y = xy[1]
-            self.image_library = ImageLibrary()
+
+        def load_library(self, library):
+            if not isinstance(library, ImageLibrary):
+                raise ValueError("library must be an ImageLibrary")
+            self.image_library = library
 
         def get(self, pixel):
+            if self.image_library == None:
+                raise ValueError("no image library has been loaded")
             result = []
             return result
 
@@ -71,8 +77,11 @@ class ImageLibrary:
     def __init__(self, library_name=LIBRARY_NAME):
         self.library_path = os.path.dirname(os.path.realpath(__file__)) \
             + '/' + library_name
+        self.color_mapper = ImageLibrary.ColorMapper()
 
-    def validate(self):
+    def init(self):
+        self.library_files = {}
+
         warning_msg = "Has this library been initialized with build_library.py?"
         try:
             library_dirs = os.listdir(self.library_path)
@@ -84,10 +93,34 @@ class ImageLibrary:
                 raise self.ImageLibraryError(
                     "Local image library is missing color {0}. {1}"
                     .format(color, warning_msg))
-            if not len(os.listdir(self.library_path + '/' + color)) > 0:
+
+            images = os.listdir(self.library_path + '/' + color)
+
+            if not len(images) > 0:
                 raise self.ImageLibraryError(
                     "Local image library has no images under folder {0}. {1}"
                     .format(color, warning_msg))
+
+            self.library_files[color] = [0, images]
+
+    def next(self, pixel):
+        color = self.color_mapper.name(pixel)
+
+        color_list = self.library_files[color]
+        index = color_list[0]
+
+        # we have reached the end of the image files for this color
+        if index >= len(color_list[1]):
+            index = 0
+
+        # increment for next retrieval
+        self.library_files[color][0] = index + 1
+
+        return "{0}/{1}/{2}".format(
+                self.library_path,
+                color,
+                self.library_files[color][1][index]
+            )
 
     ## for reporting out library state issues
     class ImageLibraryError(Exception):
