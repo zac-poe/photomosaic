@@ -91,24 +91,23 @@ class ImageLibrary:
     def init(self):
         self.library_files = {}
 
-        warning_msg = "Has this library been initialized with build_library.py?"
         try:
             library_dirs = os.listdir(self.library_path)
         except FileNotFoundError:
-            raise self.ImageLibraryError("No image library found at {0}. {1}"
-                .format(self.library_path, warning_msg))
+            raise self.ImageLibraryError("No image library found at {0}"
+                .format(self.library_path))
         for color in self.ColorMapper.COLOR_SPECTRUM:
             if not color in library_dirs:
                 raise self.ImageLibraryError(
-                    "Local image library is missing color {0}. {1}"
-                    .format(color, warning_msg))
+                    "Local image library is missing directory for color {0}"
+                    .format(color))
 
             images = os.listdir(self.library_path + '/' + color)
 
             if not len(images) > 0:
                 raise self.ImageLibraryError(
-                    "Local image library has no images under folder {0}. {1}"
-                    .format(color, warning_msg))
+                    "Local image library has no images under directory {0}"
+                    .format(color))
 
             self.library_files[color] = [0, images]
 
