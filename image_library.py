@@ -111,6 +111,14 @@ class ImageLibrary:
 
             self.library_files[color] = [0, images]
 
+    def create(self):
+        if not os.path.isdir(self.library_path):
+            os.mkdir(self.library_path)
+        for color in self.ColorMapper.COLOR_SPECTRUM:
+            color_dir = self.library_path + '/' + color
+            if not os.path.isdir(color_dir):
+                os.mkdir(color_dir)
+
     def next(self, pixel):
         if not hasattr(self, 'library_files'):
             raise self.ImageLibraryError("This object has not been initialized")

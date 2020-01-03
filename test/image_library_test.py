@@ -88,6 +88,23 @@ def test_next_fails_if_not_initialized():
 
     remove_library()
 
+def test_create_builds_library_folders():
+    remove_library()
+    test_subject = ImageLibrary(test_library)
+
+    test_subject.create()
+    for c in ImageLibrary.ColorMapper.COLOR_SPECTRUM:
+        assert os.path.isdir(test_library + '/' + c)
+
+    remove_library()
+
+def test_create_completes_even_if_library_exists():
+    create_library()
+    create_library_dirs()
+    test_subject = ImageLibrary(test_library)
+
+    test_subject.create()
+
 def create_library():
     if os.path.isdir(test_library):
         remove_library()
