@@ -44,7 +44,7 @@ def test_init_loads_file_list():
     test_subject.init()
 
     assert isinstance(test_subject.library_files, dict)
-    assert len(test_subject.library_files) == len(ImageLibrary.ColorMapper.COLOR_SPECTRUM)
+    assert len(test_subject.library_files) == len(ImageLibrary.COLORS)
 
     remove_library()
 
@@ -93,7 +93,7 @@ def test_create_builds_library_folders():
     test_subject = ImageLibrary(test_library)
 
     test_subject.create()
-    for c in ImageLibrary.ColorMapper.COLOR_SPECTRUM:
+    for c in ImageLibrary.COLORS:
         assert os.path.isdir(test_library + '/' + c)
 
     remove_library()
@@ -111,13 +111,13 @@ def create_library():
     os.mkdir(test_library)
 
 def create_library_dirs():
-    for d in ImageLibrary.ColorMapper.COLOR_SPECTRUM:
+    for d in ImageLibrary.COLORS:
         if not os.path.isdir(test_library + '/' + d):
             os.mkdir(test_library + '/' + d)
 
 def create_library_images():
     image_mapper = ImageMapper()
-    for d in ImageLibrary.ColorMapper.COLOR_SPECTRUM:
+    for d in ImageLibrary.COLORS:
         if os.path.isdir(test_library + '/' + d):
             image_mapper.write_pixels([[(0,0,0)]],
                 "{0}/{1}/image.jpg".format(test_library, d))

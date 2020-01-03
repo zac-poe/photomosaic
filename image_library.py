@@ -178,3 +178,6 @@ class ImageLibrary:
                     result = name
 
             return result
+
+    # provide public visibility without knowledge of internals
+    COLORS = ColorMapper.COLOR_SPECTRUM.keys()
