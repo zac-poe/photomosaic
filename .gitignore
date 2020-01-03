@@ -1,4 +1,5 @@
 /.pytest_cache
 **/__pycache__/
 /image_library
+/.pixabay_api_key
 /test/data/out/

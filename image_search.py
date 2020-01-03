@@ -1,3 +1,4 @@
+import os
 from image_library import ImageLibrary
 
 ## creates image search instances
@@ -13,8 +14,12 @@ class ImageSearchFactory:
 
     ## search implementation for Pixabay
     class PixabaySearch:
+        API_KEY_FILE = '.pixabay_api_key'
+
         def __init__(self):
-            pass
+            key_file = open(os.path.dirname(os.path.realpath(__file__)) 
+                + '/' + self.API_KEY_FILE, 'r')
+            self.api_key = key_file.readline()
 
         def search(self, color, quantity):
             pass
