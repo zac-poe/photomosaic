@@ -2,11 +2,9 @@ from image_library import ImageLibrary
 
 testSubject = ImageLibrary.ColorMapper()
 
-def test_name_exact_value_red():
-    assert 'red' == testSubject.name((255, 0, 0))
-
-def test_name_exact_value_brown():
-    assert 'brown' == testSubject.name((150, 75, 0))
+def test_name_exact_value_blue():
+    assert 'blue' == testSubject.name(
+        testSubject.COLOR_SPECTRUM['blue'].to_tuple())
 
 def test_name_closest_value_red():
     expected = 'red'

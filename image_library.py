@@ -57,6 +57,7 @@ class ImageRetrievalFactory:
         def __init__(self, xy):
             self.image_mapper = ImageMapper()
             self.xy = xy
+            self.weight = .8  # decrease for fine tuning color spectrum values
 
         def load_library(self, library):
             if not isinstance(library, ImageLibrary):
@@ -73,7 +74,7 @@ class ImageRetrievalFactory:
             image = self.image_mapper.read_file(file).resize(self.xy)
 
             # mask to specific color tone
-            image = self.image_mapper.colorize_image(image, pixel)
+            image = self.image_mapper.colorize_image(image, pixel, self.weight)
 
             return self.image_mapper.read_image(image)
 
@@ -143,19 +144,19 @@ class ImageLibrary:
 
     ## maps from pixels to library colors
     class ColorMapper:
+        # RBG color wheel averages
         COLOR_SPECTRUM = {
-            'black': PixelFactory.parse((0, 0, 0)),
-            'blue': PixelFactory.parse((0, 0, 255)),
-            'brown': PixelFactory.parse((150, 75, 0)),
+            'blue': PixelFactory.parse((57, 85, 224)),
+            'brown': PixelFactory.parse((152, 118, 84)),
             'gray': PixelFactory.parse((128, 128, 128)),
-            'green': PixelFactory.parse((0, 255, 0)),
-            'lilac': PixelFactory.parse((200, 162, 200)),
-            'orange': PixelFactory.parse((255, 79, 0)),
-            'pink': PixelFactory.parse((255, 166, 201)),
-            'red': PixelFactory.parse((255, 0, 0)),
-            'turquoise': PixelFactory.parse((64, 224, 208)),
-            'white': PixelFactory.parse((255, 255, 255)),
-            'yellow': PixelFactory.parse((255, 255, 0))
+            'green': PixelFactory.parse((27, 158, 0)),
+            'lilac': PixelFactory.parse((182, 60, 201)),
+            'orange': PixelFactory.parse((237, 122, 46)),
+            'pink': PixelFactory.parse((217, 65, 176)),
+            'red': PixelFactory.parse((180, 0, 0)),
+            'turquoise': PixelFactory.parse((59, 207, 205)),
+            'white': PixelFactory.parse((235, 236, 237)),
+            'yellow': PixelFactory.parse((255, 213, 0))
         }
 
         def name(self, pixel):
