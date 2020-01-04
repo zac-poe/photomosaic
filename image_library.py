@@ -58,7 +58,7 @@ class ImageRetrievalFactory:
         def __init__(self, xy):
             self.image_mapper = ImageMapper()
             self.xy = xy
-            self.weight = .8  # decrease for fine tuning color spectrum values
+            self.weight = .9  # decrease for fine tuning color spectrum values
 
         def load_library(self, library):
             if not isinstance(library, ImageLibrary):
