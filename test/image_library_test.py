@@ -105,6 +105,8 @@ def test_create_completes_even_if_library_exists():
 
     test_subject.create()
 
+    remove_library()
+
 def create_library():
     if os.path.isdir(test_library):
         remove_library()
