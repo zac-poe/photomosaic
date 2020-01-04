@@ -9,9 +9,9 @@ def test_download_retrieves_file():
     test_subject = SearchResultHandler(download_directory)
     file = 'logo_square.png'
 
-    test_subject.download("https://pixabay.com/static/img/" + file)
+    download = test_subject.download("https://pixabay.com/static/img/" + file)
 
-    assert os.path.exists(download_directory + '/' + file)
+    assert os.path.exists(download)
 
     tear_down()
 

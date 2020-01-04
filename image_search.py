@@ -49,5 +49,7 @@ class SearchResultHandler:
 
     def download(self, url):
         response = requests.get(url)
-        file = open(self.directory + '/' + os.path.basename(url), 'wb')
+        filename = self.directory + '/' + os.path.basename(url)
+        file = open(filename, 'wb')
         file.write(response.content)
+        return filename
