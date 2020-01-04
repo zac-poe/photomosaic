@@ -24,3 +24,14 @@ def test_init_reads_key():
     assert key_value == test_subject.api_key
 
     os.remove(test_key)
+
+# search tests are commented out since api keys will not be version controlled
+'''
+def test_search():
+    ImageSearchFactory.PixabaySearch.API_KEY_FILE = '.pixabay_api_key'
+    test_subject = ImageSearchFactory.PixabaySearch()
+    quantity = 1
+
+    results = test_subject.search('red', quantity)
+    assert len(results) == quantity
+'''

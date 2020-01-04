@@ -1,6 +1,7 @@
 dependencies:
 	@echo "May require administrative privileges"
 	python3 -m pip install Pillow
+	python3 -m pip install requests
 
 test: test_dependencies
 	@code_line_filter='/^\s*#/d;/^\s*$$/d'

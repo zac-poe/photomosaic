@@ -1,5 +1,6 @@
 import os
-from image_library import ImageLibrary
+import requests
+import math
 
 ## creates image search instances
 class ImageSearchFactory:
@@ -14,7 +15,9 @@ class ImageSearchFactory:
 
     ## search implementation for Pixabay
     class PixabaySearch:
+        API_URL = 'https://pixabay.com/api/'
         API_KEY_FILE = '.pixabay_api_key'
+        PAGE_SIZE = 20
 
         def __init__(self):
             key_file = open(os.path.dirname(os.path.realpath(__file__)) 
@@ -22,4 +25,29 @@ class ImageSearchFactory:
             self.api_key = key_file.readline()
 
         def search(self, color, quantity):
-            pass
+            images = []
+            for page in range(1, math.ceil(quantity / self.PAGE_SIZE) + 1):
+                result = requests.get(self.API_URL,
+                    params = {
+                        'key': self.api_key,
+                        'colors': color,
+                        'page': page
+                    }).json()
+
+                for i in range(0, min(quantity - len(images), 20)):
+                    images.append(result['hits'][i]['previewURL'])
+            return images
+
+
+## for handling search results
+class SearchResultHandler:
+    def __init__(self, directory):
+        if not os.path.isdir(directory):
+            raise ValueError("search result directory {0} does not exist"
+                .format(directory))
+        self.directory = directory
+
+    def download(self, url):
+        response = requests.get(url)
+        file = open(self.directory + '/' + os.path.basename(url), 'wb')
+        file.write(response.content)
