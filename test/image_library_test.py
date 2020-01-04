@@ -120,7 +120,7 @@ def test_add_file_places_file():
 
     assert len(os.listdir(test_library + '/' + color)) == 0
 
-    test_subject.add_file(color, file, 5)
+    test_subject.add_file(color, test_library + '/' + file, 5)
 
     assert len(os.listdir(test_library + '/' + color)) == 1
     assert not os.path.exists(test_library + '/' + file)
@@ -139,7 +139,7 @@ def test_add_file_handles_collisions():
 
     assert len(os.listdir(test_library + '/' + color)) == 1
 
-    test_subject.add_file(color, file, 5)
+    test_subject.add_file(color, test_library + '/' + file, 5)
 
     assert len(os.listdir(test_library + '/' + color)) == 2
     assert not os.path.exists(test_library + '/' + file)

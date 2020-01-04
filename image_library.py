@@ -144,20 +144,19 @@ class ImageLibrary:
             )
 
     def add_file(self, color, file, size):
-        destination_file = file
+        destination_file = os.path.basename(file)
         if os.path.exists("{0}/{1}/{2}"
-            .format(self.library_path, color, file)):
-            destination_file = "{0}_{1}".format(time.time(), file)
+            .format(self.library_path, color, destination_file)):
+            destination_file = "{0}_{1}".format(time.time(), destination_file)
 
         # add scaled file
-        image = self.image_mapper.read_file("{0}/{1}"
-            .format(self.library_path, file))
+        image = self.image_mapper.read_file(file)
         image.thumbnail((size, size))
         image.save("{0}/{1}/{2}"
             .format(self.library_path, color, destination_file))
 
         # remove original
-        os.remove("{0}/{1}".format(self.library_path, file))
+        os.remove(file)
 
     ## for reporting out library state issues
     class ImageLibraryError(Exception):
