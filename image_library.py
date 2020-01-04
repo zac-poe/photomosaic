@@ -151,7 +151,7 @@ class ImageLibrary:
 
     ## maps from pixels to library colors
     class ColorMapper:
-        # RBG color wheel averages
+        # RBG color wheel averages tuned from https://rgbcolorcode.com/
         COLOR_SPECTRUM = {
             'blue': PixelFactory.parse((57, 85, 224)),
             'brown': PixelFactory.parse((152, 118, 84)),
