@@ -1,7 +1,9 @@
 # Photomosaic
 The purpose of this application is to build [photomosaic](https://en.wikipedia.org/wiki/Photographic_mosaic) images.
 
-![feature-image](readme/feature_mosaic.jpg)
+![feature-image](readme/feature_mosaic.jpg)  
+_Tile images obtained from Pixabay_  
+<a href="https://pixabay.com/"><img src="https://pixabay.com/static/img/logo_square.svg" width="80" height="80"/></a>
 
 ## Limitations
 Mosaic structures are inferred with simplistic averaging techniques. Matching images are selected directly within the RBG spectrum, which means color inference may not be perfect relative to the visible human eye color spectrum.
