@@ -2,6 +2,7 @@ import collections
 from image import ImageMapper, PixelFactory
 from PIL import Image
 import os
+import time
 
 ## creates image search instances
 class ImageRetrievalFactory:
@@ -87,6 +88,7 @@ class ImageLibrary:
         self.library_path = os.path.dirname(os.path.realpath(__file__)) \
             + '/' + library_name
         self.color_mapper = ImageLibrary.ColorMapper()
+        self.image_mapper = ImageMapper()
 
     def init(self):
         self.library_files = {}
@@ -140,6 +142,22 @@ class ImageLibrary:
                 color,
                 self.library_files[color][1][index]
             )
+
+    def add_file(self, color, file, size):
+        destination_file = file
+        if os.path.exists("{0}/{1}/{2}"
+            .format(self.library_path, color, file)):
+            destination_file = "{0}_{1}".format(time.time(), file)
+
+        # add scaled file
+        image = self.image_mapper.read_file("{0}/{1}"
+            .format(self.library_path, file))
+        image.thumbnail((size, size))
+        image.save("{0}/{1}/{2}"
+            .format(self.library_path, color, destination_file))
+
+        # remove original
+        os.remove("{0}/{1}".format(self.library_path, file))
 
     ## for reporting out library state issues
     class ImageLibraryError(Exception):

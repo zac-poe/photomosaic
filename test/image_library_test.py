@@ -4,6 +4,7 @@ import shutil
 from image import ImageMapper
 
 test_library = 'test_image_library'
+image_mapper = ImageMapper()
 
 def test_init_fails_with_no_library():
     test_subject = ImageLibrary(test_library)
@@ -104,6 +105,44 @@ def test_create_completes_even_if_library_exists():
     test_subject = ImageLibrary(test_library)
 
     test_subject.create()
+    # expecting no runtime collisions
+
+    remove_library()
+
+def test_add_file_places_file():
+    create_library()
+    create_library_dirs()
+    file = 'image.jpg'
+    image_mapper.write_pixels([[(0,0,0)]],
+        "{0}/{1}".format(test_library, file))
+    test_subject = ImageLibrary(test_library)
+    color = 'red'
+
+    assert len(os.listdir(test_library + '/' + color)) == 0
+
+    test_subject.add_file(color, file, 5)
+
+    assert len(os.listdir(test_library + '/' + color)) == 1
+    assert not os.path.exists(test_library + '/' + file)
+
+    remove_library()
+
+def test_add_file_handles_collisions():
+    create_library()
+    create_library_dirs()
+    file = 'image.jpg'
+    image_mapper.write_pixels([[(0,0,0)]],
+        "{0}/{1}".format(test_library, file))
+    test_subject = ImageLibrary(test_library)
+    color = 'red'
+    shutil.copy(test_library + '/' + file, test_library + '/' + color)
+
+    assert len(os.listdir(test_library + '/' + color)) == 1
+
+    test_subject.add_file(color, file, 5)
+
+    assert len(os.listdir(test_library + '/' + color)) == 2
+    assert not os.path.exists(test_library + '/' + file)
 
     remove_library()
 
@@ -118,7 +157,6 @@ def create_library_dirs():
             os.mkdir(test_library + '/' + d)
 
 def create_library_images():
-    image_mapper = ImageMapper()
     for d in ImageLibrary.COLORS:
         if os.path.isdir(test_library + '/' + d):
             image_mapper.write_pixels([[(0,0,0)]],
